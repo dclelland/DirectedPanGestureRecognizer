@@ -20,17 +20,17 @@ view.addGestureRecognizer(gestureRecognizer)
 
 ### Features:
 
-✓ Keeps track of the initial state of the gesture.
+✓ Keeps track of the initial state of the gesture:
 
 ```swift
 if (gestureRecognizer.initialDirection == .Up) {
     if (gestureRecognizer.direction == .Down) {
-        print("Gesture recognizer started swiping upwards and then changed direction");
+        print("Gesture recognizer started swiping upwards and then changed direction")
     }
 }
 ```
 
-✓ Enforce the gesture's starting direction.
+✓ Enforce the gesture's starting direction:
 
 ```swift
 func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -43,36 +43,36 @@ func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Boo
 }
 ```
 
-✓ Delegate protocol methods for `start`, `update`, `cancel`, and `finish` events.
+✓ Delegate protocol methods for `start`, `update`, `cancel`, and `finish` events:
 
 ```swift
-func directedPinchGestureRecognizerDidStart(gestureRecognizer: DirectedPinchGestureRecognizer) {
+func directedPanGestureRecognizerDidStart(gestureRecognizer: DirectedPanGestureRecognizer) {
     print("Gesture recognizer started")
 }
 
-func directedPinchGestureRecognizerDidUpdate(gestureRecognizer: DirectedPinchGestureRecognizer) {
+func directedPanGestureRecognizerDidUpdate(gestureRecognizer: DirectedPanGestureRecognizer) {
     print("Gesture recognizer updated")
 }
 
-func directedPinchGestureRecognizerDidCancel(gestureRecognizer: DirectedPinchGestureRecognizer) {
+func directedPanGestureRecognizerDidCancel(gestureRecognizer: DirectedPanGestureRecognizer) {
     print("Gesture recognizer cancelled")
 }
 
-func directedPinchGestureRecognizerDidFinish(gestureRecognizer: DirectedPinchGestureRecognizer) {
+func directedPanGestureRecognizerDidFinish(gestureRecognizer: DirectedPanGestureRecognizer) {
     print("Gesture recognizer finished")
 }
 ```
 
-✓ Convenience methods for `location`, `direction`, `translation`, and `velocity`.
+✓ Convenience methods for `location`, `direction`, `translation`, and `velocity`:
 
 ```swift
-print(gestureRecognizer.location)
-print(gestureRecognizer.direction)
-print(gestureRecognizer.translation(inDirection: .Right))
-print(gestureRecognizer.velocity(inDirection: .Right))
+let location = gestureRecognizer.location // CGPoint?
+let direction = gestureRecognizer.direction // DirectedPanGestureRecognizer.Direction?
+let translation = gestureRecognizer.translation(inDirection: .Right) // CGFloat
+let velocity = gestureRecognizer.velocity(inDirection: .Right) // CGFloat
 ```
 
-✓ IBDesignable parameters for enforcing a minimum translation and velocity.
+✓ `IBDesignable` parameters for enforcing a minimum translation and velocity:
 
 ```swift
 gestureRecognizer.minimumTranslation = 64.0
@@ -81,7 +81,7 @@ gestureRecognizer.minimumVelocity = 256.0
 
 ### Todo:
 
-- Make Demo project
+- Make demo project
 - Make GIF preview
 - Publish to Cocoapods
 - Publish to Carthage
