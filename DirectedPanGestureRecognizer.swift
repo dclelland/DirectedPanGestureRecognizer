@@ -10,7 +10,7 @@ import UIKit
 import UIKit.UIGestureRecognizerSubclass
 
 /// Extension of `UIGestureRecognizerDelegate` which allows the delegate to receive messages when the pan gesture recognizer starts, updates, cancels, and finishes. The `delegate` property can be set to a class implementing `DirectedPanGestureRecognizerDelegate` and it will receive these messages.
-@objc protocol DirectedPanGestureRecognizerDelegate: UIGestureRecognizerDelegate {
+@objc public protocol DirectedPanGestureRecognizerDelegate: UIGestureRecognizerDelegate {
     
     /// Called when the pan gesture recognizer starts.
     optional func directedPanGestureRecognizerDidStart(gestureRecognizer: DirectedPanGestureRecognizer)
@@ -26,10 +26,10 @@ import UIKit.UIGestureRecognizerSubclass
     
 }
 
-class DirectedPanGestureRecognizer: UIPanGestureRecognizer {
+public class DirectedPanGestureRecognizer: UIPanGestureRecognizer {
     
     /// The pan gesture recognizer's direction. Also used to calculate attributes for a given direction.
-    enum Direction {
+    public enum Direction {
         /// The pan gesture recognizer's touches move upwards.
         case Up
         /// The pan gesture recognizer's touches move leftwards.
@@ -43,41 +43,41 @@ class DirectedPanGestureRecognizer: UIPanGestureRecognizer {
     // MARK: Configuration
     
     /// Minimum translation (in `initialDirection`) required for the gesture to finish. Defaults to `0.0`.
-    @IBInspectable var minimumTranslation: CGFloat = 0.0
+    @IBInspectable public var minimumTranslation: CGFloat = 0.0
     
     /// Minimum velocity (in `initialDirection`) required for the gesture to finish. Defaults to `0.0`.
-    @IBInspectable var minimumVelocity: CGFloat = 0.0
+    @IBInspectable public var minimumVelocity: CGFloat = 0.0
     
     // MARK: Internal variables
     
     /// The current location in `view` when the pan gesture recognizer begins. Defaults to `nil`. Resets to `nil` when `reset()` is called.
-    private(set) var initialLocation: CGPoint?
+    public private(set) var initialLocation: CGPoint?
     
     /// The current direction in `view` when the pan gesture recognizer begins. Defaults to `nil`. Resets to `nil` when `reset()` is called.
-    private(set) var initialDirection: Direction?
+    public private(set) var initialDirection: Direction?
     
     // MARK: Delegation
     
-    override var delegate: UIGestureRecognizerDelegate? {
+    public override var delegate: UIGestureRecognizerDelegate? {
         didSet {
             self.addTarget(self, action: "onPan")
         }
     }
     
-    private var directedPanDelegate: DirectedPanGestureRecognizerDelegate? {
+    internal var directedPanDelegate: DirectedPanGestureRecognizerDelegate? {
         return delegate as? DirectedPanGestureRecognizerDelegate
     }
     
     // MARK: Initialization
     
     /// Initialize the pan gesture recognizer with no target or action set.
-    convenience init() {
+    public convenience init() {
         self.init(target: nil, action: nil)
     }
     
     // MARK: Overrides
     
-    override func reset() {
+    public override func reset() {
         super.reset()
         
         initialLocation = nil
@@ -86,8 +86,7 @@ class DirectedPanGestureRecognizer: UIPanGestureRecognizer {
     
     // MARK: Actions
     
-    /// Called when the pan gesture recognizer updates. Final function which should otherwise be private, as this method's selector is added as a target when the `delegate` is set, and selectors require their methods to be public.
-    final func onPan() {
+    internal func onPan() {
         if (state == .Began) {
             initialLocation = location
             initialDirection = direction
@@ -119,10 +118,10 @@ class DirectedPanGestureRecognizer: UIPanGestureRecognizer {
 
 // MARK: - Dynamic variables
 
-extension DirectedPanGestureRecognizer {
+public extension DirectedPanGestureRecognizer {
     
     /// The pan gesture recognizer's current location in `view`, calculated using `locationInView()`. Returns `nil` if `view` is `nil`.
-    var location: CGPoint? {
+    public var location: CGPoint? {
         guard let view = view else {
             return nil
         }
@@ -131,7 +130,7 @@ extension DirectedPanGestureRecognizer {
     }
     
     /// The pan gesture recognizer's current direction in `view`, calculated using `translationInView()`. Returns `nil` if `view` is `nil`.
-    var direction: Direction? {
+    public var direction: Direction? {
         guard let view = view else {
             return nil
         }
@@ -151,7 +150,7 @@ extension DirectedPanGestureRecognizer {
 
 // MARK: - Directional helpers
 
-extension DirectedPanGestureRecognizer {
+public extension DirectedPanGestureRecognizer {
     
     /**
      The pan gesture recognizer's current translation in `view`, simplified to a linear value in a given direction.
@@ -161,7 +160,7 @@ extension DirectedPanGestureRecognizer {
      - returns: Returns `0.0` if either `direction` (or the `initialDirection` fallback) or `view` are `nil`. Else, takes the current `translationInView()` and simplfies it down to the specified `direction`. For example, if `direction` is `.Left`, and the translation is `CGPoint(x: 3.0, y: 4.0)`, the function returns `3.0`.
      */
     
-    func translation(inDirection direction: Direction? = nil) -> CGFloat {
+    public func translation(inDirection direction: Direction? = nil) -> CGFloat {
         guard let direction = direction ?? initialDirection, view = view else {
             return 0.0
         }
@@ -177,7 +176,7 @@ extension DirectedPanGestureRecognizer {
      - returns: Returns `0.0` if either `direction` (or the `initialDirection` fallback) or `view` are `nil`. Else, takes the current `velocityInView()` and simplfies it down to the specified `direction`. For example, if `direction` is `.Down`, and the velocity is `CGPoint(x: 12.0, y: 16.0)`, the function returns `16.0`.
      */
     
-    func velocity(inDirection direction: Direction? = nil) -> CGFloat {
+    public func velocity(inDirection direction: Direction? = nil) -> CGFloat {
         guard let direction = direction ?? initialDirection, view = view else {
             return 0.0
         }
