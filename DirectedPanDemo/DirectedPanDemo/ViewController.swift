@@ -37,8 +37,8 @@ class ViewController: UIViewController {
     func updateView() {
         let currentDirection = direction(forIndex: directionSegmentedControl.selectedSegmentIndex)!
         
-        let translationText = String(format: "%.2f", panGestureRecognizer.translation(inDirection: currentDirection))
-        let velocityText = String(format: "%.2f", panGestureRecognizer.velocity(inDirection: currentDirection))
+        let translationText = String(format: "%.2f", panGestureRecognizer.translation())
+        let velocityText = String(format: "%.2f", panGestureRecognizer.velocity())
         
         translationLabel.text = "Translation: " + translationText
         velocityLabel.text = "Velocity: " + velocityText
