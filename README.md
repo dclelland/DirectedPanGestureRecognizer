@@ -81,7 +81,6 @@ gestureRecognizer.minimumVelocity = 256.0
 
 ### Todo:
 
-- Make demo project
 - Make GIF preview
 - Publish to Cocoapods
 - Publish to Carthage
