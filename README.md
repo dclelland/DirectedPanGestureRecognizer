@@ -35,7 +35,7 @@ if (gestureRecognizer.initialDirection == .Up) {
 ```swift
 func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
     switch gestureRecognizer {
-    case let panGestureRecognizer as DirectedPanGestureRecognizer where panGestureRecognizer == self.panGestureRecognizer
+    case let panGestureRecognizer as DirectedPanGestureRecognizer where panGestureRecognizer == self.panGestureRecognizer:
         return panGestureRecognizer.direction == .Left
     default:
         return true
