@@ -98,8 +98,6 @@ extension ViewController: UIGestureRecognizerDelegate {
 extension ViewController: DirectedPanGestureRecognizerDelegate {
     
     func directedPanGestureRecognizerDidStart(gestureRecognizer: DirectedPanGestureRecognizer) {
-        translationLabel.backgroundColor = gestureRecognizer.translation() < gestureRecognizer.minimumTranslation ? UIColor.redColor() : UIColor.greenColor()
-        velocityLabel.backgroundColor = gestureRecognizer.velocity() < gestureRecognizer.minimumVelocity ? UIColor.redColor() : UIColor.greenColor()
         arrowLabel.backgroundColor = UIColor.clearColor()
         updateView()
     }
