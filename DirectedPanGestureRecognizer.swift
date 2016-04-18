@@ -60,7 +60,7 @@ public class DirectedPanGestureRecognizer: UIPanGestureRecognizer {
     
     public override var delegate: UIGestureRecognizerDelegate? {
         didSet {
-            self.addTarget(self, action: "onPan")
+            self.addTarget(self, action: #selector(onPan))
         }
     }
     
