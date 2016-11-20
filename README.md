@@ -7,7 +7,7 @@ It's based on my older [CXSwipeGestureRecognizer](https://github.com/dclelland/C
 #### Installation:
 
 ```ruby
-pod 'DirectedPanGestureRecognizer', '~> 0.1'
+pod 'DirectedPanGestureRecognizer', '~> 0.2'
 ```
 
 #### Usage:
