@@ -1,13 +1,13 @@
 # DirectedPanGestureRecognizer
 
-DirectedPanGestureRecognizer is a UIPanGestureRecognizer subclass providing a richer API for working with pan gestures.
+DirectedPanGestureRecognizer is a UIPanGestureRecognizer subclass providing a richer API for working with pan gestures in Swift 3.
 
 It's based on my older [CXSwipeGestureRecognizer](https://github.com/dclelland/CXSwipeGestureRecognizer) library. It doesn't strictly deprecate that project – while it's mostly just a straight rewrite in Swift, some of the more opinionated features have been removed.
 
 #### Installation:
 
 ```ruby
-pod 'DirectedPanGestureRecognizer', '~> 0.1'
+pod 'DirectedPanGestureRecognizer', '~> 1.0'
 ```
 
 #### Usage:
@@ -23,8 +23,8 @@ view.addGestureRecognizer(gestureRecognizer)
 ✓ Keeps track of the initial state of the gesture:
 
 ```swift
-if (gestureRecognizer.initialDirection == .Up) {
-    if (gestureRecognizer.direction == .Down) {
+if (gestureRecognizer.initialDirection == .up) {
+    if (gestureRecognizer.direction == .down) {
         print("Gesture recognizer started swiping upwards and then changed direction")
     }
 }
@@ -36,7 +36,7 @@ if (gestureRecognizer.initialDirection == .Up) {
 func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
     switch gestureRecognizer {
     case let panGestureRecognizer as DirectedPanGestureRecognizer where panGestureRecognizer == self.panGestureRecognizer:
-        return panGestureRecognizer.direction == .Left
+        return panGestureRecognizer.direction == .left
     default:
         return true
     }
@@ -46,19 +46,19 @@ func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Boo
 ✓ Delegate protocol methods for `start`, `update`, `cancel`, and `finish` events:
 
 ```swift
-func directedPanGestureRecognizerDidStart(gestureRecognizer: DirectedPanGestureRecognizer) {
+func directedPanGestureRecognizer(didStart gestureRecognizer: DirectedPanGestureRecognizer) {
     print("Gesture recognizer started")
 }
 
-func directedPanGestureRecognizerDidUpdate(gestureRecognizer: DirectedPanGestureRecognizer) {
+func directedPanGestureRecognizer(didUpdate gestureRecognizer: DirectedPanGestureRecognizer) {
     print("Gesture recognizer updated")
 }
 
-func directedPanGestureRecognizerDidCancel(gestureRecognizer: DirectedPanGestureRecognizer) {
+func directedPanGestureRecognizer(didCancel gestureRecognizer: DirectedPanGestureRecognizer) {
     print("Gesture recognizer cancelled")
 }
 
-func directedPanGestureRecognizerDidFinish(gestureRecognizer: DirectedPanGestureRecognizer) {
+func directedPanGestureRecognizer(didFinish gestureRecognizer: DirectedPanGestureRecognizer) {
     print("Gesture recognizer finished")
 }
 ```
@@ -68,8 +68,8 @@ func directedPanGestureRecognizerDidFinish(gestureRecognizer: DirectedPanGesture
 ```swift
 let location = gestureRecognizer.location // CGPoint?
 let direction = gestureRecognizer.direction // DirectedPanGestureRecognizer.Direction?
-let translation = gestureRecognizer.translation(inDirection: .Right) // CGFloat
-let velocity = gestureRecognizer.velocity(inDirection: .Right) // CGFloat
+let translation = gestureRecognizer.translation(inDirection: .right) // CGFloat
+let velocity = gestureRecognizer.velocity(inDirection: .right) // CGFloat
 ```
 
 ✓ `IBDesignable` parameters for enforcing a minimum translation and velocity:
@@ -78,10 +78,3 @@ let velocity = gestureRecognizer.velocity(inDirection: .Right) // CGFloat
 gestureRecognizer.minimumTranslation = 64.0
 gestureRecognizer.minimumVelocity = 256.0
 ```
-
-### Todo:
-
-- Make GIF preview
-- Publish to Cocoapods
-- Publish to Carthage
-- Publish to Cocoa controls

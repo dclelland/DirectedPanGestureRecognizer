@@ -13,16 +13,16 @@ import UIKit.UIGestureRecognizerSubclass
 @objc public protocol DirectedPanGestureRecognizerDelegate: UIGestureRecognizerDelegate {
     
     /// Called when the pan gesture recognizer starts.
-    optional func directedPanGestureRecognizerDidStart(gestureRecognizer: DirectedPanGestureRecognizer)
+    @objc optional func directedPanGestureRecognizer(didStart gestureRecognizer: DirectedPanGestureRecognizer)
     
     /// Called when the pan gesture recognizer updates.
-    optional func directedPanGestureRecognizerDidUpdate(gestureRecognizer: DirectedPanGestureRecognizer)
+    @objc optional func directedPanGestureRecognizer(didUpdate gestureRecognizer: DirectedPanGestureRecognizer)
     
     /// Called when the pan gesture recognizer cancels. A pan gesture recognizer may cancel if its translation or velocity in `initialDirection` is less than the value of `minimumTranslation` or `minimumVelocity`, respectively.
-    optional func directedPanGestureRecognizerDidCancel(gestureRecognizer: DirectedPanGestureRecognizer)
+    @objc optional func directedPanGestureRecognizer(didCancel gestureRecognizer: DirectedPanGestureRecognizer)
     
     /// Called when the pan gesture recognizer finishes. A pan gesture recognizer may finish if its translation and velocity in `initialDirection` are greater than or equal to the value of `minimumTranslation` or `minimumVelocity`, respectively.
-    optional func directedPanGestureRecognizerDidFinish(gestureRecognizer: DirectedPanGestureRecognizer)
+    @objc optional func directedPanGestureRecognizer(didFinish gestureRecognizer: DirectedPanGestureRecognizer)
     
 }
 
@@ -31,13 +31,13 @@ public class DirectedPanGestureRecognizer: UIPanGestureRecognizer {
     /// The pan gesture recognizer's direction. Also used to calculate attributes for a given direction.
     public enum Direction {
         /// The pan gesture recognizer's touches move upwards.
-        case Up
+        case up
         /// The pan gesture recognizer's touches move leftwards.
-        case Left
+        case left
         /// The pan gesture recognizer's touches move downwards.
-        case Down
+        case down
         /// The pan gesture recognizer's touches move rightwards.
-        case Right
+        case right
     }
     
     // MARK: Configuration
@@ -87,22 +87,22 @@ public class DirectedPanGestureRecognizer: UIPanGestureRecognizer {
     // MARK: Actions
     
     internal func onPan() {
-        if (state == .Began) {
+        if (state == .began) {
             initialLocation = location
             initialDirection = direction
         }
     
         switch state {
-        case .Began:
-            directedPanDelegate?.directedPanGestureRecognizerDidStart?(self)
-        case .Changed:
-            directedPanDelegate?.directedPanGestureRecognizerDidUpdate?(self)
-        case .Cancelled:
-            directedPanDelegate?.directedPanGestureRecognizerDidCancel?(self)
-        case .Ended where shouldCancel():
-            directedPanDelegate?.directedPanGestureRecognizerDidCancel?(self)
-        case .Ended:
-            directedPanDelegate?.directedPanGestureRecognizerDidFinish?(self)
+        case .began:
+            directedPanDelegate?.directedPanGestureRecognizer?(didStart: self)
+        case .changed:
+            directedPanDelegate?.directedPanGestureRecognizer?(didUpdate: self)
+        case .cancelled:
+            directedPanDelegate?.directedPanGestureRecognizer?(didCancel: self)
+        case .ended where shouldCancel():
+            directedPanDelegate?.directedPanGestureRecognizer?(didCancel: self)
+        case .ended:
+            directedPanDelegate?.directedPanGestureRecognizer?(didFinish: self)
         default:
             break
         }
@@ -120,29 +120,29 @@ public class DirectedPanGestureRecognizer: UIPanGestureRecognizer {
 
 public extension DirectedPanGestureRecognizer {
     
-    /// The pan gesture recognizer's current location in `view`, calculated using `locationInView()`. Returns `nil` if `view` is `nil`.
+    /// The pan gesture recognizer's current location in `view`, calculated using `location(in:)`. Returns `nil` if `view` is `nil`.
     public var location: CGPoint? {
         guard let view = view else {
             return nil
         }
         
-        return locationInView(view)
+        return location(in: view)
     }
     
-    /// The pan gesture recognizer's current direction in `view`, calculated using `translationInView()`. Returns `nil` if `view` is `nil`.
+    /// The pan gesture recognizer's current direction in `view`, calculated using `translation(in:)`. Returns `nil` if `view` is `nil`.
     public var direction: Direction? {
         guard let view = view else {
             return nil
         }
         
-        let translation = translationInView(view)
+        let translation = self.translation(in: view)
         
-        if (translation == CGPoint.zero) {
+        if (translation == .zero) {
             return nil
         } else if (fabs(translation.x) < fabs(translation.y)) {
-            return translation.y > 0.0 ? .Down : .Up
+            return translation.y > 0.0 ? .down : .up
         } else {
-            return translation.x > 0.0 ? .Right : .Left
+            return translation.x > 0.0 ? .right : .left
         }
     }
     
@@ -157,15 +157,15 @@ public extension DirectedPanGestureRecognizer {
      
      - parameter direction: The direction. Defaults to `nil`, in which case `initialDirection` is used.
      
-     - returns: Returns `0.0` if either `direction` (or the `initialDirection` fallback) or `view` are `nil`. Else, takes the current `translationInView()` and simplfies it down to the specified `direction`. For example, if `direction` is `.Left`, and the translation is `CGPoint(x: 3.0, y: 4.0)`, the function returns `3.0`.
+     - returns: Returns `0.0` if either `direction` (or the `initialDirection` fallback) or `view` are `nil`. Else, takes the current `translation(in:)` and simplfies it down to the specified `direction`. For example, if `direction` is `.left`, and the translation is `CGPoint(x: 3.0, y: 4.0)`, the function returns `3.0`.
      */
     
     public func translation(inDirection direction: Direction? = nil) -> CGFloat {
-        guard let direction = direction ?? initialDirection, view = view else {
+        guard let direction = direction ?? initialDirection, let view = view else {
             return 0.0
         }
         
-        return translationInView(view).magnitude(inDirection: direction)
+        return translation(in: view).magnitude(inDirection: direction)
     }
     
     /**
@@ -173,15 +173,15 @@ public extension DirectedPanGestureRecognizer {
      
      - parameter direction: The direction. Defaults to `nil`, in which case `initialDirection` is used.
      
-     - returns: Returns `0.0` if either `direction` (or the `initialDirection` fallback) or `view` are `nil`. Else, takes the current `velocityInView()` and simplfies it down to the specified `direction`. For example, if `direction` is `.Down`, and the velocity is `CGPoint(x: 12.0, y: 16.0)`, the function returns `16.0`.
+     - returns: Returns `0.0` if either `direction` (or the `initialDirection` fallback) or `view` are `nil`. Else, takes the current `velocity(in:)` and simplfies it down to the specified `direction`. For example, if `direction` is `.down`, and the velocity is `CGPoint(x: 12.0, y: 16.0)`, the function returns `16.0`.
      */
     
-    public func velocity(inDirection direction: Direction? = nil) -> CGFloat {
-        guard let direction = direction ?? initialDirection, view = view else {
+    public func velocity(in direction: Direction? = nil) -> CGFloat {
+        guard let direction = direction ?? initialDirection, let view = view else {
             return 0.0
         }
         
-        return velocityInView(view).magnitude(inDirection: direction)
+        return velocity(in: view).magnitude(inDirection: direction)
     }
 
 }
@@ -192,13 +192,13 @@ private extension CGPoint {
     
     func magnitude(inDirection direction: DirectedPanGestureRecognizer.Direction) -> CGFloat {
         switch direction {
-        case .Up:
+        case .up:
             return -y
-        case .Left:
+        case .left:
             return -x
-        case .Down:
+        case .down:
             return +y
-        case .Right:
+        case .right:
             return +x
         }
     }
@@ -209,9 +209,9 @@ private extension CGRect {
     
     func magnitude(inDirection direction: DirectedPanGestureRecognizer.Direction) -> CGFloat {
         switch direction {
-        case .Up, .Down:
+        case .up, .down:
             return height
-        case .Left, .Right:
+        case .left, .right:
             return width
         }
     }
