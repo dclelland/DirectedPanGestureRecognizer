@@ -26,7 +26,7 @@ import UIKit.UIGestureRecognizerSubclass
     
 }
 
-public class DirectedPanGestureRecognizer: UIPanGestureRecognizer {
+open class DirectedPanGestureRecognizer: UIPanGestureRecognizer {
     
     /// The pan gesture recognizer's direction. Also used to calculate attributes for a given direction.
     public enum Direction {
@@ -43,22 +43,22 @@ public class DirectedPanGestureRecognizer: UIPanGestureRecognizer {
     // MARK: Configuration
     
     /// Minimum translation (in `initialDirection`) required for the gesture to finish. Defaults to `0.0`.
-    @IBInspectable public var minimumTranslation: CGFloat = 0.0
+    @IBInspectable open var minimumTranslation: CGFloat = 0.0
     
     /// Minimum velocity (in `initialDirection`) required for the gesture to finish. Defaults to `0.0`.
-    @IBInspectable public var minimumVelocity: CGFloat = 0.0
+    @IBInspectable open var minimumVelocity: CGFloat = 0.0
     
     // MARK: Internal variables
     
     /// The current location in `view` when the pan gesture recognizer begins. Defaults to `nil`. Resets to `nil` when `reset()` is called.
-    public private(set) var initialLocation: CGPoint?
+    open fileprivate(set) var initialLocation: CGPoint?
     
     /// The current direction in `view` when the pan gesture recognizer begins. Defaults to `nil`. Resets to `nil` when `reset()` is called.
-    public private(set) var initialDirection: Direction?
+    open fileprivate(set) var initialDirection: Direction?
     
     // MARK: Delegation
     
-    public override var delegate: UIGestureRecognizerDelegate? {
+    open override var delegate: UIGestureRecognizerDelegate? {
         didSet {
             self.addTarget(self, action: #selector(onPan))
         }
@@ -77,7 +77,7 @@ public class DirectedPanGestureRecognizer: UIPanGestureRecognizer {
     
     // MARK: Overrides
     
-    public override func reset() {
+    open override func reset() {
         super.reset()
         
         initialLocation = nil
@@ -110,7 +110,7 @@ public class DirectedPanGestureRecognizer: UIPanGestureRecognizer {
     
     // MARK: Cancellation
     
-    private func shouldCancel() -> Bool {
+    fileprivate func shouldCancel() -> Bool {
         return translation() < minimumTranslation || velocity() < minimumVelocity
     }
 

@@ -43,8 +43,8 @@ class ViewController: UIViewController {
         translationLabel.text = "Translation: " + translationText
         velocityLabel.text = "Velocity: " + velocityText
         
-        let translationColor = panGestureRecognizer.translation() < panGestureRecognizer.minimumTranslation ? UIColor.redColor() : UIColor.greenColor()
-        let velocityColor = panGestureRecognizer.velocity() < panGestureRecognizer.minimumVelocity ? UIColor.redColor() : UIColor.greenColor()
+        let translationColor = panGestureRecognizer.translation() < panGestureRecognizer.minimumTranslation ? UIColor.red : UIColor.green
+        let velocityColor = panGestureRecognizer.velocity() < panGestureRecognizer.minimumVelocity ? UIColor.red : UIColor.green
         
         translationLabel.backgroundColor = translationColor
         velocityLabel.backgroundColor = velocityColor
@@ -62,16 +62,16 @@ class ViewController: UIViewController {
     
     // MARK: Actions
     
-    @IBAction func directionSegmentedControlDidChangeValue(segmentedControl: UISegmentedControl) {
+    @IBAction func directionSegmentedControlDidChangeValue(_ segmentedControl: UISegmentedControl) {
         updateView()
     }
     
-    @IBAction func minimumTranslationSliderDidChangeValue(slider: UISlider) {
+    @IBAction func minimumTranslationSliderDidChangeValue(_ slider: UISlider) {
         panGestureRecognizer.minimumTranslation = minimumTranslation(forValue: slider.value)
         updateView()
     }
     
-    @IBAction func minimumVelocitySliderDidChangeValue(slider: UISlider) {
+    @IBAction func minimumVelocitySliderDidChangeValue(_ slider: UISlider) {
         panGestureRecognizer.minimumVelocity = minimumVelocity(forValue: slider.value)
         updateView()
     }
@@ -82,7 +82,7 @@ class ViewController: UIViewController {
 
 extension ViewController: UIGestureRecognizerDelegate {
 
-    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         switch gestureRecognizer {
         case let panGestureRecognizer as DirectedPanGestureRecognizer where panGestureRecognizer == self.panGestureRecognizer:
             return panGestureRecognizer.direction == direction(forIndex: directionSegmentedControl.selectedSegmentIndex)!
@@ -97,23 +97,23 @@ extension ViewController: UIGestureRecognizerDelegate {
 
 extension ViewController: DirectedPanGestureRecognizerDelegate {
     
-    func directedPanGestureRecognizerDidStart(gestureRecognizer: DirectedPanGestureRecognizer) {
-        arrowLabel.backgroundColor = UIColor.clearColor()
+    func directedPanGestureRecognizer(didStart gestureRecognizer: DirectedPanGestureRecognizer) {
+        arrowLabel.backgroundColor = .clear
         updateView()
     }
     
-    func directedPanGestureRecognizerDidUpdate(gestureRecognizer: DirectedPanGestureRecognizer) {
-        arrowLabel.backgroundColor = UIColor.clearColor()
+    func directedPanGestureRecognizer(didUpdate gestureRecognizer: DirectedPanGestureRecognizer) {
+        arrowLabel.backgroundColor = .clear
         updateView()
     }
     
-    func directedPanGestureRecognizerDidCancel(gestureRecognizer: DirectedPanGestureRecognizer) {
-        arrowLabel.backgroundColor = UIColor.redColor()
+    func directedPanGestureRecognizer(didCancel gestureRecognizer: DirectedPanGestureRecognizer) {
+        arrowLabel.backgroundColor = .red
         updateView()
     }
     
-    func directedPanGestureRecognizerDidFinish(gestureRecognizer: DirectedPanGestureRecognizer) {
-        arrowLabel.backgroundColor = UIColor.greenColor()
+    func directedPanGestureRecognizer(didFinish gestureRecognizer: DirectedPanGestureRecognizer) {
+        arrowLabel.backgroundColor = .green
         updateView()
     }
     
@@ -126,13 +126,13 @@ private extension ViewController {
     func direction(forIndex index: Int) -> DirectedPanGestureRecognizer.Direction? {
         switch index {
         case 0:
-            return .Up
+            return .up
         case 1:
-            return .Left
+            return .left
         case 2:
-            return .Down
+            return .down
         case 3:
-            return .Right
+            return .right
         default:
             return nil
         }
@@ -148,13 +148,13 @@ private extension ViewController {
     
     func arrow(forDirection direction: DirectedPanGestureRecognizer.Direction) -> String {
         switch direction {
-        case .Up:
+        case .up:
             return "↑"
-        case .Left:
+        case .left:
             return "←"
-        case .Down:
+        case .down:
             return "↓"
-        case .Right:
+        case .right:
             return "→"
         }
     }
