@@ -87,10 +87,8 @@ open class DirectedPanGestureRecognizer: UIPanGestureRecognizer {
     // MARK: Actions
     
     internal func onPan() {
-        if (state == .began) {
-            initialLocation = location
-            initialDirection = direction
-        }
+        initialLocation = initialLocation ?? location
+        initialDirection = initialDirection ?? direction
     
         switch state {
         case .began:

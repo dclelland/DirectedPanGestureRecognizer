@@ -96,6 +96,7 @@
 				TargetAttributes = {
 					6572AAE81CBB90D00098EB10 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = SP382Y6YUY;
 						LastSwiftMigration = 0830;
 					};
 				};
@@ -252,22 +253,26 @@
 		6572AAFC1CBB90D00098EB10 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = SP382Y6YUY;
 				INFOPLIST_FILE = DirectedPanDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.protonome.DirectedPanDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		6572AAFD1CBB90D00098EB10 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = SP382Y6YUY;
 				INFOPLIST_FILE = DirectedPanDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.protonome.DirectedPanDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
