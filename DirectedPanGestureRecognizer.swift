@@ -86,7 +86,7 @@ open class DirectedPanGestureRecognizer: UIPanGestureRecognizer {
     
     // MARK: Actions
     
-    internal func onPan() {
+    @objc internal func onPan() {
         initialLocation = initialLocation ?? location
         initialDirection = initialDirection ?? direction
     
