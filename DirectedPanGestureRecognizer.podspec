@@ -6,12 +6,12 @@
 #
 Pod::Spec.new do |s|
   s.name                    = "DirectedPanGestureRecognizer"
-  s.version                 = "1.1.2"
+  s.version                 = "1.2.0"
   s.summary                 = "DirectedPanGestureRecognizer provides a more comprehensive pan gesture API."
   s.homepage                = "https://github.com/dclelland/DirectedPanGestureRecognizer"
   s.license                 = { :type => 'MIT' }
   s.author                  = { "Daniel Clelland" => "daniel.clelland@gmail.com" }
-  s.source                  = { :git => "https://github.com/dclelland/DirectedPanGestureRecognizer.git", :tag => "1.1.2" }
+  s.source                  = { :git => "https://github.com/dclelland/DirectedPanGestureRecognizer.git", :tag => "1.2.0" }
   s.platform                = :ios, '8.0'
   s.ios.deployment_target   = '8.0'
   s.ios.source_files        = 'DirectedPanGestureRecognizer.swift'
