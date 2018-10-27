@@ -135,9 +135,9 @@ public extension DirectedPanGestureRecognizer {
         
         let translation = self.translation(in: view)
         
-        if (translation == .zero) {
+        if translation == .zero {
             return nil
-        } else if (fabs(translation.x) < fabs(translation.y)) {
+        } else if abs(translation.x) < abs(translation.y) {
             return translation.y > 0.0 ? .down : .up
         } else {
             return translation.x > 0.0 ? .right : .left
